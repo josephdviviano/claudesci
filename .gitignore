@@ -1,0 +1,7 @@
+# Backups the installer makes when it replaces a real file with a symlink
+*.backup-*
+
+.DS_Store
+
+# Local only: contains machine-specific paths
+settings.json
