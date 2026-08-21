@@ -29,6 +29,11 @@ stop when the question is answered.
 
 * Commits contain the absolute minimal information needed to understand what changed, in short sentences that are easily scanned by eye. Do not coauthor commits.
 
+# Push style
+
+* Before the first push of any repo to a public remote, audit for personal information: emails, `/Users/...` paths, machine names, and names of unrelated projects. Check both the tracked files and the commit metadata (`git log --format="%ae %ce"`). A leak in pushed history is a history rewrite, not a tip fix.
+* Commits use the GitHub noreply email, never a personal address.
+
 # PR Style
 
 * PRs explain exactly what the added feature does, at the code level, and no more — not why it does that, not how you decided to do it, zero narration. They are short and information dense, and summarize the changes for someone new, nothing else. Do not coauthor PR messages.
