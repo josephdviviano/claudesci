@@ -31,8 +31,7 @@ stop when the question is answered.
 
 # Push style
 
-* Before the first push of any repo to a public remote, audit for personal information: emails, `/Users/...` paths, machine names, and names of unrelated projects. Check both the tracked files and the commit metadata (`git log --format="%ae %ce"`). A leak in pushed history is a history rewrite, not a tip fix.
-* Commits use the GitHub noreply email, never a personal address.
+* Before the first push of any repo to a public remote, audit the tracked files for personal information: `/Users/...` paths, machine names, and names of unrelated projects. The author email in commit metadata is fine. A leak in pushed history is a history rewrite, not a tip fix.
 
 # PR Style
 
