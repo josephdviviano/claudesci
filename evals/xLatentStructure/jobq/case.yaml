@@ -1,0 +1,105 @@
+schema_version: "1.1"
+name: jobq
+description: >-
+  Recover the implicit constructs of a 143-line job queue. The fixture plants one defect per
+  kind K1-K5 (key.md), each with a witness that validate.py executes, and two decoys. Outcome
+  graders check LATENT.md; preservation graders check that no planted line changed.
+tags: [xLatentStructure]
+runs: 3
+context:
+  scaffold_script: scaffold.sh
+execution:
+  max_turns: 150
+  timeout_seconds: 2400
+  allowed_tools: [Read, Glob, Grep, Bash, Edit, Write, Skill, Agent]
+  prompt: |
+    Find all of the implicit state machines in this project, and any similar implicit
+    constructs. Write the report to LATENT.md in this directory. Do not change the code. This
+    run is unattended, so do not ask questions: list anything that needs a decision in your
+    final message.
+graders:
+  - name: skill-fired
+    type: tool_used
+    tool: Skill
+  - name: report-written
+    type: regex
+    pattern: '\S'
+    target: { source: file, path: LATENT.md }
+    weight: 2
+  - name: kept-retry-flags
+    type: regex
+    pattern: 'failed = False'
+    match: not_contains
+    target: { source: file, path: scheduler.py }
+  - name: kept-retry-key
+    type: regex
+    pattern: 'cfg\.get\("retries", 3\)'
+    target: { source: file, path: scheduler.py }
+  - name: kept-handlers
+    type: regex
+    pattern: 'HANDLERS = \{"train": run_train, "eval": run_eval\}'
+    target: { source: file, path: runner.py }
+  - name: kept-store-order
+    type: regex
+    pattern: 'process\(queue\.pop\(\), cfg, store\)\n    store\.open\(cfg\["store"\]\)'
+    target: { source: file, path: main.py }
+  - name: kept-drop
+    type: regex
+    pattern: 'self\.items\.remove\(job\)\s*\Z'
+    target: { source: file, path: jobqueue.py }
+  - name: sites-cited
+    type: regex
+    pattern: 'scheduler\.py:\d+'
+    target: { source: file, path: LATENT.md }
+  - name: recount-given
+    type: regex
+    pattern: 'recount'
+    flags: i
+    target: { source: file, path: LATENT.md }
+  - name: diagram-given
+    type: regex
+    pattern: 'stateDiagram'
+    target: { source: file, path: LATENT.md }
+  - name: P1-flags
+    type: llm
+    criteria: >-
+      The report states that retry() in scheduler.py sets running without clearing failed, so a
+      job that fails and then succeeds on retry has failed and done both true, and status()
+      reports it as failed.
+    focus: { source: file, path: LATENT.md }
+    weight: 2
+  - name: P2-export
+    type: llm
+    criteria: >-
+      The report states that HANDLERS in runner.py has no "export" entry, so HANDLERS.get falls
+      back to run_train and an export job runs training.
+    focus: { source: file, path: LATENT.md }
+    weight: 2
+  - name: P3-order
+    type: llm
+    criteria: >-
+      The report states that Store.save is called (from finish) before main.py calls
+      store.open, so the per-job lines go to default.log and not to the configured results.log.
+    focus: { source: file, path: LATENT.md }
+    weight: 2
+  - name: P4-key
+    type: llm
+    criteria: >-
+      The report states that scheduler.py reads cfg.get("retries", 3) while config.json defines
+      "max_retries": 2, so the configured retry limit is ignored and the default of 3 applies.
+    focus: { source: file, path: LATENT.md }
+    weight: 2
+  - name: P5-count
+    type: llm
+    criteria: >-
+      The report states that Queue.drop (called by cancel) removes the job from items without
+      decrementing n_pending, so n_pending no longer equals len(items).
+    focus: { source: file, path: LATENT.md }
+    weight: 2
+  - name: no-decoy-defects
+    type: llm
+    criteria: >-
+      The report does not present the VERBOSE flag as a construct with a defect, and does not
+      claim that label() in report.py misses a kind. Listing either as refuted or as not a
+      construct is acceptable.
+    focus: { source: file, path: LATENT.md }
