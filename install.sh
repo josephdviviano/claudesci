@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 # Install this setup into ~/.claude by symlink, so edits here take effect immediately.
-# Idempotent. Existing real files are backed up, never overwritten.
+# Skills are also linked into Gemini. Idempotent. Existing real files are backed up,
+# never overwritten.
 #
-#   ./install.sh           install into ~/.claude
+#   ./install.sh           install into ~/.claude and ~/.gemini/config/skills
 #   ./install.sh --check   report what is linked, change nothing
-#   CLAUDE_HOME=/path ./install.sh   install elsewhere
+#   CLAUDE_HOME=/path GEMINI_SKILLS=/path ./install.sh   install elsewhere
 
 set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET="${CLAUDE_HOME:-$HOME/.claude}"
+GEMINI_SKILLS="${GEMINI_SKILLS:-$HOME/.gemini/config/skills}"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 MODE="${1:-install}"
 
@@ -49,17 +51,18 @@ apply() {
         [ -d "$skill" ] || continue
         name="$(basename "$skill")"
         "$action" "${skill%/}" "$TARGET/skills/$name"
+        "$action" "${skill%/}" "$GEMINI_SKILLS/$name"
     done
 }
 
 if [ "$MODE" = "--check" ]; then
-    echo "checking $TARGET against $REPO"
+    echo "checking $TARGET and $GEMINI_SKILLS against $REPO"
     apply check_one
     exit 0
 fi
 
-echo "installing $REPO into $TARGET"
-mkdir -p "$TARGET/skills" "$TARGET/scripts"
+echo "installing $REPO into $TARGET and $GEMINI_SKILLS"
+mkdir -p "$TARGET/skills" "$TARGET/scripts" "$GEMINI_SKILLS"
 apply link_one
 echo "done. skills linked: $(find "$TARGET/skills" -maxdepth 1 -name 'x*' | wc -l | tr -d ' ')"
-echo "Restart Claude Code for the skills to appear in the slash menu."
+echo "Restart Claude Code and Gemini for the skills to appear."

@@ -14,7 +14,8 @@ effort: max
 
 Find defects across more code than one agent can hold, and hand back a plan, not a diff.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: questions get answers not edits and bash style.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: questions get answers not edits,
+bash style, no silent fallbacks and verification proves execution.
 
 ## Input
 
@@ -30,13 +31,13 @@ The scope to sweep. If the user named a subsystem, stay inside it.
    | Clause | Why |
    |---|---|
    | Exactly which files are in scope | Prevents drift into another agent's set |
-   | DO NOT MODIFY ANY FILE. Report only. | The deliverable is a plan (questions get answers not edits) |
+   | DO NOT MODIFY ANY FILE. Report only. | The deliverable is a plan |
    | What counts as a finding | Otherwise you get style opinions |
    | Evidence required: file, line, failing case | Unverifiable findings cost a round each |
-   | The bash style rules | Rule 11, restated in every subagent prompt |
+   | The bash style rules | A permission prompt stalls the auditor until someone answers it |
 
 3. **Define what counts as a finding** before dispatch. Defects that change behaviour: wrong
-   logic, unhandled state, silent fallbacks (no silent fallbacks), unreachable code (verification proves execution), assumptions the
+   logic, unhandled state, silent fallbacks, unreachable code, assumptions the
    data violates, resource and lifetime errors. Not style, not naming, not preference.
 
 4. **Merge and deduplicate** the returned findings. The same defect will arrive from several

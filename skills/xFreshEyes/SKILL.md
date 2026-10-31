@@ -14,7 +14,9 @@ effort: max
 
 An agent that did not build the thing audits whether it is sound, and reports without touching it.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: verification proves execution, do not rationalize your instrumentation and questions get answers not edits.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: verification proves execution, do
+not rationalize your instrumentation, questions get answers not edits, bash style, thresholds from
+measured or published data and no silent fallbacks.
 
 ## Input
 
@@ -28,7 +30,7 @@ inaccurately is still a finding.
    that helped build the thing re-derives the same reasoning and confirms its own choices. Give
    the subagent the target and the description, not your conclusions about them.
 
-2. **Include the bash style rules in the subagent prompt** (bash style), and scope it explicitly:
+2. **Include the bash style rules in the subagent prompt**, and scope it explicitly:
    read-only, report findings, modify nothing.
 
 3. **Audit for these, in order:**
@@ -37,16 +39,16 @@ inaccurately is still a finding.
    |---|---|
    | Does the described method match what runs? | The document says one threshold, the code uses another |
    | Is the method sound? | A filter that cannot do what it claims; a metric that cannot separate what it ranks |
-   | What is unjustified? | A constant with no measured or published basis (thresholds from measured or published data) |
-   | What is unreachable? | Code that never executes, a stage nothing calls (verification proves execution) |
-   | What is silent? | A fallback, a default, or a swallowed error (no silent fallbacks) |
+   | What is unjustified? | A constant with no measured or published basis |
+   | What is unreachable? | Code that never executes, a stage nothing calls |
+   | What is silent? | A fallback, a default, or a swallowed error |
    | What contradicts itself? | Two sections, or code and comment, that cannot both be true |
    | What is unrequested? | Behaviour nobody asked for, quietly changing results |
 
 4. **Verify each finding before reporting it.** Give the file and line, and the evidence. A
    suspicion is reported as a question, not as a finding.
 
-5. **Change nothing** (questions get answers not edits). The deliverable is the report. Fixes are a separate decision the
+5. **Change nothing.** The deliverable is the report. Fixes are a separate decision the
    user makes after reading it.
 
 6. **Run a second pass after fixes land,** with a fresh subagent again. The pass that reviews its

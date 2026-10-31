@@ -12,9 +12,10 @@ argument-hint: <config, script or branch to smoke test>
 
 Prove the code path runs locally at small scale, then hand the real run to the cluster.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: verification proves execution, no silent
-fallbacks and per-repo policy is authoritative. Read `~/.claude/ENVIRONMENTS.md` for the current
-cluster and job-submission facts — they are not repeated here because they drift.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: verification proves execution, no
+silent fallbacks, per-repo policy is authoritative and commit only when asked.
+Read `~/.claude/ENVIRONMENTS.md` for the current cluster and job-submission facts — they are not
+repeated here because they drift.
 
 ## Input
 
@@ -23,7 +24,7 @@ The change to test, and the target scale it is meant to run at.
 ## Procedure
 
 1. **Read the environment policy first.** The project `CLAUDE.md` gives the interpreter,
-   environment manager and test runner (per-repo policy is authoritative).
+   environment manager and test runner.
    `~/.claude/ENVIRONMENTS.md` gives the cluster and submission mechanism. Using the wrong one
    produces failures that look like code defects.
 
@@ -31,11 +32,11 @@ The change to test, and the target scale it is meant to run at.
    size, model width, seeds. Do not scale down by disabling stages — a smoke test that skips the
    new stage tests nothing.
 
-3. **Run it locally and confirm the new path executed** (verification proves execution). Not that the process exited
+3. **Run it locally and confirm the new path executed.** Not that the process exited
    zero: that the new code ran. A counter, a log line, or a changed output.
 
 4. **Check the failure modes deliberately.** Does it crash on missing input rather than
-   continuing (no silent fallbacks)? Are there silent defaults shadowing the config? Is the seed set?
+   continuing? Are there silent defaults shadowing the config? Is the seed set?
 
 5. **Confirm what the smoke test cannot tell you.** Small scale hides memory limits, distributed
    behaviour, data-loading throughput and convergence. Say which of these remain untested rather
@@ -45,7 +46,7 @@ The change to test, and the target scale it is meant to run at.
    request, expected wall time, and where output lands. Absolute paths, no placeholders.
 
 7. **Do not launch the expensive run yourself** unless asked, and do not commit or push beyond
-   what the user requested (commit only when asked).
+   what the user requested.
 
 ## Common mistakes
 

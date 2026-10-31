@@ -5,3 +5,8 @@
 
 # Local only: contains machine-specific paths
 settings.json
+
+# Eval run output
+evals/results/
+evals/**/results/
+evals/**/.build/

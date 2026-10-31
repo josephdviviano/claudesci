@@ -1,0 +1,3 @@
+[submodule "external/claude-skills-research"]
+	path = external/claude-skills-research
+	url = https://github.com/chgagne/claude-skills-research.git

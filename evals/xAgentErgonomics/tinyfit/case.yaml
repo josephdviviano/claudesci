@@ -1,0 +1,141 @@
+schema_version: "1.1"
+name: tinyfit
+description: >-
+  Agent-ergonomic redesign of a 3-script training project's docs and plan. The fixture plants 9
+  defects (key.md): a planned command shown as real, two names for one concept, a silent
+  default, a cost known only to a code comment, and others. Outcome graders check the docs and
+  plan; preservation graders check that no code changed and no doc was deleted.
+tags: [xAgentErgonomics]
+runs: 3
+context:
+  scaffold_script: scaffold.sh
+execution:
+  max_turns: 200
+  timeout_seconds: 3600
+  allowed_tools: [Read, Glob, Grep, Bash, Edit, Write, Skill, Agent]
+  prompt: |
+    This directory is the tinyfit project. Its design document is docs/DESIGN.md and its plan
+    is plans/PLAN.FIT.md.
+
+    OK, now I want you to think deeply about how to make this entire system as agent-intuitive,
+    agent-ergonomic, and agent-accretive as you can possibly imagine. Put yourself in the
+    driver's seat and imagine that YOU are the one using this system and driving it. What would
+    most enable you to do an awesome job understanding the situation accurately and optimally
+    controlling everything to drive the best and most accurate results possible, with the least
+    expenditure of resources?
+
+    Then make all the requisite changes to the various design documents and plans accordingly.
+    Don't just think of the project as an assemblage of various parts or components: really try
+    to profoundly and deeply conceptualize it as a synthetic SYSTEM that is maximally coherent,
+    cohesive, modular, and interconnected, forming a tower of linked abstractions that are
+    maximally legible to you as an agent. Really ruminate and meditate on all of this incredibly
+    deeply before responding or taking any actions.
+
+    This run is unattended, so do not ask questions: list anything that needs a decision in
+    your final message.
+graders:
+  - name: skill-fired
+    type: tool_used
+    tool: Skill
+  - name: no-new-code
+    type: file_exists
+    path: "**/*.py"
+    exists: false
+    weight: 2
+  - name: code-lr-kept
+    type: regex
+    pattern: 'cfg\.get\("lr", 0\.1\)'
+    target: { source: file, path: train.py }
+    weight: 2
+  - name: code-threshold-kept
+    type: regex
+    pattern: 'THRESHOLD = 0\.85'
+    target: { source: file, path: evaluate.py }
+    weight: 2
+  - name: code-chunk-kept
+    type: regex
+    pattern: 'cfg\["chunk_size"\]'
+    target: { source: file, path: prep.py }
+    weight: 2
+  - name: design-kept
+    type: regex
+    pattern: '\S'
+    target: { source: file, path: docs/DESIGN.md }
+    weight: 2
+  - name: plan-kept
+    type: regex
+    pattern: '\S'
+    target: { source: file, path: plans/PLAN.FIT.md }
+    weight: 2
+  - name: status-planned-design
+    type: regex
+    pattern: '^(?![^\n]*planned)[^\n]*status\.py'
+    flags: mi
+    match: not_contains
+    target: { source: file, path: docs/DESIGN.md }
+  - name: status-planned-map
+    type: regex
+    pattern: '^(?![^\n]*planned)[^\n]*status\.py'
+    flags: mi
+    match: not_contains
+    target: { source: file, path: CLAUDE.md }
+  - name: one-name-design
+    type: regex
+    pattern: '^(?![^\n]*chunk)[^\n]*\bshard'
+    flags: mi
+    match: not_contains
+    target: { source: file, path: docs/DESIGN.md }
+  - name: one-name-map
+    type: regex
+    pattern: '^(?![^\n]*chunk)[^\n]*\bshard'
+    flags: mi
+    match: not_contains
+    target: { source: file, path: CLAUDE.md }
+  - name: one-name-plan
+    type: regex
+    pattern: '^(?![^\n]*chunk)[^\n]*\bshard'
+    flags: mi
+    match: not_contains
+    target: { source: file, path: plans/PLAN.FIT.md }
+  - name: plan-lr
+    type: regex
+    pattern: '\blr\b'
+    target: { source: file, path: plans/PLAN.FIT.md }
+  - name: cost-stated
+    type: llm
+    criteria: >-
+      The document states how long a full training run takes, as a duration on the order of a
+      minute (for example "about 75 s" or "1-2 min").
+    focus: { source: file, path: docs/DESIGN.md }
+  - name: smoke-documented
+    type: regex
+    pattern: '--steps'
+    target: { source: file, path: docs/DESIGN.md }
+  - name: threshold-one-home
+    type: llm
+    criteria: >-
+      The document does not present 0.80 as the current pass threshold. It either states 0.85,
+      or points to the one place where the threshold is defined. Mentioning 0.80 only as a
+      corrected or historical value is acceptable.
+    focus: { source: file, path: docs/DESIGN.md }
+  - name: map-links-plan
+    type: regex
+    pattern: 'PLAN\.FIT\.md'
+    target: { source: file, path: CLAUDE.md }
+  - name: plan-status
+    type: regex
+    pattern: 'status'
+    flags: i
+    target: { source: file, path: plans/PLAN.FIT.md }
+  - name: plan-acceptance
+    type: llm
+    criteria: >-
+      Every milestone in the plan states a concrete check that decides whether it is done, such
+      as a command to run and the output it must give.
+    focus: { source: file, path: plans/PLAN.FIT.md }
+  - name: measured
+    type: llm
+    criteria: >-
+      The reply reports a before-and-after comparison of concrete operator tasks attempted by
+      agents with no prior context, with a result for each task before and after the document
+      changes.

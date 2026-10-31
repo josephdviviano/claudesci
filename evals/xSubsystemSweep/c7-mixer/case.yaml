@@ -1,0 +1,77 @@
+schema_version: "1.1"
+name: c7-mixer
+description: >-
+  Modernize a 165-line C++ mixer with no change in behaviour. The fixture has 12 safe stale
+  idioms and 6 traps whose naive rewrite changes golden.txt (validate.py proves both).
+  The golden check carries half the score; each modern idiom present carries one point.
+tags: [xSubsystemSweep, cpp]
+runs: 3
+context:
+  scaffold_script: scaffold.sh
+execution:
+  max_turns: 150
+  timeout_seconds: 2400
+  allowed_tools: [Read, Glob, Grep, Bash, Edit, Write, Skill, Agent]
+  prompt: |
+    The mixer system in this directory (mixer.h, mixer.cpp) is written in an older C++ style.
+    Clean it up and modernize it to C++20 with no change in behaviour. main.cpp is the test
+    harness: ./check.sh builds it and diffs its output against golden.txt. Apply every change
+    you can show keeps that output identical. You may edit main.cpp where an API change needs
+    it, but do not edit golden.txt or check.sh. This run is unattended, so do not ask
+    questions: list anything that needs a decision in your final message. As your last
+    command, run `./check.sh > check.out 2>&1`.
+graders:
+  - name: skill-fired
+    type: tool_used
+    tool: Skill
+  - name: golden-unchanged
+    type: regex
+    pattern: "^PASS$"
+    flags: m
+    target: { source: file, path: check.out }
+    weight: 10
+  - name: S2-no-NULL
+    type: regex
+    pattern: "\\bNULL\\b"
+    match: not_contains
+    target: { source: file, path: mixer.h }
+  - name: S3-no-define
+    type: regex
+    pattern: "#define"
+    match: not_contains
+    target: { source: file, path: mixer.cpp }
+  - name: S4-std-array
+    type: regex
+    pattern: "std::array<\\s*float\\s*,\\s*3\\s*>"
+    target: { source: file, path: mixer.h }
+  - name: S5-no-raw-Filter
+    type: regex
+    pattern: "Filter\\s*\\*"
+    match: not_contains
+    target: { source: file, path: mixer.h }
+  - name: S6-contains
+    type: regex
+    pattern: "\\.contains\\("
+    target: { source: file, path: mixer.cpp }
+  - name: S7-no-out-param
+    type: regex
+    pattern: "Voice\\s*\\*\\s*\\*"
+    match: not_contains
+    target: { source: file, path: mixer.h }
+  - name: S9-structured-binding
+    type: regex
+    pattern: "auto\\s*&?\\s*\\["
+    target: { source: file, path: mixer.cpp }
+  - name: S10-no-c-cast
+    type: regex
+    pattern: "\\((int|float|Listener\\s*\\*)\\)"
+    match: not_contains
+    target: { source: file, path: mixer.cpp }
+  - name: S11-span
+    type: regex
+    pattern: "std::span"
+    target: { source: file, path: mixer.h }
+  - name: S12-owned-voices
+    type: regex
+    pattern: "unique_ptr<\\s*Voice\\s*>"
+    target: { source: file, path: mixer.h }

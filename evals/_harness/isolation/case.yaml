@@ -1,0 +1,22 @@
+schema_version: "1.1"
+name: harness-isolation
+description: Self-test of the eval harness. The scaffold copies the c7-mixer fixture, check.sh passes in the Bash sandbox, and only the with-arm sees the plugin's skills.
+tags: [harness]
+runs: 1
+context:
+  scaffold_script: scaffold.sh
+execution:
+  max_turns: 15
+  allowed_tools: [Bash, Read, Skill]
+  prompt: |
+    Run `ls` and `./check.sh` in the current directory and quote their output verbatim.
+    Then list every skill available to you through the Skill tool, one per line, each
+    line starting with `SKILL: `. If there are none, write `SKILL: none`.
+graders:
+  - name: fixture-builds-and-passes
+    type: regex
+    pattern: "PASS"
+  - name: plugin-skill-visible
+    type: regex
+    pattern: "xSubsystemSweep"
+    arm: with-only

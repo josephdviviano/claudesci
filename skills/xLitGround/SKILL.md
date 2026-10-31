@@ -6,13 +6,15 @@ description: >-
   needs defending, when the user asks what others use, or when a claim is about to be cited.
 user-invocable: true
 argument-hint: <the choice or claim to ground>
+effort: xhigh
 ---
 
 # Lit ground
 
 Give a number a defensible source, and check that the source says what you claim it says.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: thresholds from measured or published data.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: thresholds from measured or
+published data.
 
 ## Input
 
@@ -43,7 +45,7 @@ and they will ask you to.
    trained on? An overlap with your evaluation set is a criticism a reviewer will raise.
 
 7. **If nothing published applies, say so plainly,** then measure the distribution yourself and
-   label it as local evidence (thresholds from measured or published data). Do not dress a pilot measurement as an established value.
+   label it as local evidence. Do not dress a pilot measurement as an established value.
 
 8. **Record the decision and its citation** where it will not be re-litigated — the design doc or
    the config comment, not the conversation.

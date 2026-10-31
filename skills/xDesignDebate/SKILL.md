@@ -6,13 +6,15 @@ description: >-
   thinking out loud rather than requesting a change.
 user-invocable: true
 argument-hint: <the design or mechanism to debate>
+effort: xhigh
 ---
 
 # Design debate
 
 Argue the design to a conclusion. Write nothing until the user signs off.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: questions get answers not edits.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: questions get answers not edits,
+thresholds from measured or published data and no silent fallbacks.
 
 ## Input
 
@@ -23,7 +25,7 @@ push-back and expect it.
 
 1. **Write no code.** Not an experiment, not a prototype, not a small test to check an intuition.
    Implementing during a design discussion removes the user's decision and is the failure this
-   skill exists to prevent (questions get answers not edits).
+   skill exists to prevent.
 
 2. **State the proposal back in its simplest form,** with what it costs and what it assumes. If it
    cannot be stated simply, that is the first finding.
@@ -37,8 +39,8 @@ push-back and expect it.
    |---|---|
    | Necessity | What breaks if this is removed entirely? |
    | Simplicity | Are two mechanisms doing one job? Can they be one? |
-   | Justification | Where does each constant and choice come from (thresholds from measured or published data)? |
-   | Failure behaviour | What does it do when its assumptions do not hold (no silent fallbacks)? |
+   | Justification | Where does each constant and choice come from? |
+   | Failure behaviour | What does it do when its assumptions do not hold? |
    | Coupling | Does it force two things to be tuned together that could be independent? |
    | Explainability | Can it be explained to a collaborator in one paragraph? |
 
