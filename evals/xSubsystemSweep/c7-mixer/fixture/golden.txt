@@ -1,0 +1,12 @@
+clock slot=3 gain=0.00987166818 delay=0.295163184 sens=1
+door slot=0 gain=0.400000006 delay=0.0145687647 sens=1
+guard slot=2 gain=0.219841734 delay=0.0424123742 sens=0.800000012
+torch slot=1 gain=1 delay=0 sens=0.5
+energy=11.6833878
+mix=175.792191
+found guard
+no bell
+has door=1 bell=0
+16 5 8 2 4 1 2 1 
+close music total=87.8960953
+close sfx total=175.792191
