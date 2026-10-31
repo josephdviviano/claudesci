@@ -27,6 +27,15 @@ repeated here. Read it as well as this file.
 - **Questions get answers not edits.** No unrequested optimizations or features.
 - **Bash style for autonomy:** no `$()`, no `cd X &&`, no `VAR=` prefixes. Put helper scripts in
   the scratchpad. Repeat this rule inside every subagent prompt.
+- **Other sessions share the tree.** A sibling session's uncommitted work looks like yours in
+  `git status`. Run `ListAgents` before any git operation that rewrites files (`checkout --`,
+  `stash`, `reset`, `bisect`) and before you commit. Message siblings and treat their files as
+  read-only until reconciled. Never regenerate a hunk from `HEAD` in a dirty tree: that discards
+  every session's work in the hunk. Edit shared files with targeted edits, not whole-file writes:
+  a targeted edit fails loudly when a sibling changed the text. Build into a private build
+  directory. Hash the artifacts outside the repository that a verification run reads — caches,
+  golden files, baked data — and check the hash at each verification, so that before and after
+  read the same inputs.
 - **Stale docs get deleted,** not archived. They are context pollution.
 - **Revise old comments** when the associated code changes.
 
