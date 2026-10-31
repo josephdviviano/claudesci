@@ -6,13 +6,15 @@ description: >-
   for one failing CI run use xCiTriage, and for plotting completed runs use xPlotResults.
 user-invocable: true
 argument-hint: <log directory, sweep name or job id range>
+effort: xhigh
 ---
 
 # Analyze logs
 
 Say what was launched, what finished, and why each of the rest did not.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: do not rationalize your instrumentation and bash style.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: do not rationalize your
+instrumentation, bash style and commit only when asked.
 
 ## Input
 
@@ -30,7 +32,7 @@ from the launch script or sweep config before reading any log.
 
 3. **Fan out over the logs when the set is large.** One agent per directory or shard, each
    returning classifications rather than log text. Include the bash style rules in every subagent
-   prompt (bash style), and require an example path per class so you can check the claim.
+   prompt, and require an example path per class so you can check the claim.
 
 4. **Classify each failure by cause, from evidence in the log:**
 
@@ -45,13 +47,13 @@ from the launch script or sweep config before reading any log.
 
 5. **Report counts per cause with an example path each.** A count you cannot open is not evidence.
 
-6. **Explain anomalies rather than absorbing them** (do not rationalize your instrumentation). If nineteen of twenty runs crashed
+6. **Explain anomalies rather than absorbing them.** If nineteen of twenty runs crashed
    the same way and one did not, the outlier is the finding.
 
 7. **Say which failures share a cause,** and which are independent. One fix often covers a whole
    class, and treating them separately wastes a cycle.
 
-8. **Do not re-launch anything** unless asked (commit only when asked).
+8. **Do not re-launch anything** unless asked.
 
 ## Common mistakes
 

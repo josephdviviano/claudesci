@@ -13,17 +13,18 @@ argument-hint: write <TOPIC> | read <path>
 Transport state between sessions. A handoff says what is true now and what to do next — never
 what happened during the session.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: verification proves execution, commit only when asked and stale docs get deleted.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: verification proves execution,
+commit only when asked and stale docs get deleted.
 
 ## Input
 
-Mode and topic. Files live at `.claude/HANDOFF.<TOPIC>.md`, topic uppercase, untracked unless
-the project says otherwise.
+Mode and topic. Files live at `.claude/handoff/HANDOFF.<TOPIC>.md`, topic uppercase, untracked
+unless the project says otherwise.
 
 ## Procedure — writing
 
 1. **Verify before you write.** Every claim of "done" must be checked by running something, not
-   by recalling it (verification proves execution). A handoff that reports unverified state is worse than none: the
+   by recalling it. A handoff that reports unverified state is worse than none: the
    next agent trusts it.
 2. **State current state.** What works, what does not, and the evidence for each.
 3. **Record closed decisions and why they are closed.** This is what stops the next session
@@ -45,12 +46,12 @@ the project says otherwise.
    written, and other agents may have run against it.
 2. Run the verification commands from the handoff first.
 3. Report any discrepancy between the handoff and the repository to the user before continuing.
-4. Do not treat the handoff as an instruction to commit or push (commit only when asked).
+4. Do not treat the handoff as an instruction to commit or push.
 
 ## Lifecycle
 
 When a work line closes, fold the handoff's durable content into the design doc or notes and
-delete the file (stale docs get deleted). A `DONE` handoff left in place is context pollution.
+delete the file. A `DONE` handoff left in place is context pollution.
 
 ## Template
 

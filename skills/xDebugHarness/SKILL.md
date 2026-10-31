@@ -12,7 +12,8 @@ argument-hint: <the manual loop to automate>
 
 Turn a hand-driven observation loop into a command that runs start to finish without a human.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: verification proves execution, no silent fallbacks and bash style.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: verification proves execution, no
+silent fallbacks, bash style and commit only when asked.
 
 ## Input
 
@@ -41,17 +42,17 @@ stop. Ask for the parts you did not see rather than inventing them.
 6. **Emit per-item records before aggregates.** Print the individual rows, then any summary. An
    aggregate hides the single item that disagrees, which is usually the finding.
 
-7. **Make fallbacks loud** (no silent fallbacks). Any path the harness takes when it cannot do the real thing
+7. **Make fallbacks loud.** Any path the harness takes when it cannot do the real thing
    must announce itself in a greppable form, or you will read its output as a real measurement.
 
-8. **Confirm the artifact under test is current** before you believe any output (verification proves execution). Rebuild
+8. **Confirm the artifact under test is current** before you believe any output. Rebuild
    or relink first; a harness reading a stale binary produces confident, wrong numbers.
 
 9. **Return the exact command,** with absolute paths and no placeholders, so the user can run it
    themselves.
 
 10. **Keep helper scripts in the scratchpad** unless the project wants them tracked. Do not
-    commit without being asked (commit only when asked).
+    commit without being asked.
 
 ## Common mistakes
 

@@ -14,8 +14,9 @@ argument-hint: <results directory> <what the figure must show>
 The deliverable is the script, not the picture. Anyone must be able to re-run it and check every
 number it draws.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: do not rationalize your instrumentation, never edit the evidence and thresholds from measured or published data. For chart form, palette and layout,
-use the `dataviz` skill: this skill does not define appearance.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: do not rationalize your
+instrumentation, never edit the evidence and thresholds from measured or published data.
+For chart form, palette and layout, use the `dataviz` skill: this skill does not define appearance.
 
 ## Input
 
@@ -29,14 +30,14 @@ is worse than no plot.
    an argument, needs no editing to re-run, and writes its output to a stated location. A figure
    that cannot be regenerated after this session is not a result.
 
-2. **Load from disk, and never modify the source data** (never edit the evidence). If the data needs repair, repair
+2. **Load from disk, and never modify the source data.** If the data needs repair, repair
    it in the pipeline that produces it, not in the plotting script.
 
 3. **Declare the axes explicitly:**
 
    | Axis kind | Treatment |
    |---|---|
-   | Nuisance | Aggregated over, with a stated estimator and spread |
+   | Nuisance | Aggregated over. State the estimator (mean, median), the interval (for example a 95% bootstrap interval or the standard error) and n in the figure or caption. When n is small, draw each seed as well as the aggregate |
    | Substantive | Distinguished — one line, facet or column each |
 
    Every configuration field is one or the other, and the script says which. Fields left
@@ -55,7 +56,7 @@ is worse than no plot.
    ranges across facets that are meant to be compared, readable at print size, and axis labels
    with units.
 
-8. **Report anomalies rather than smoothing them** (do not rationalize your instrumentation). A discontinuity you cannot explain
+8. **Report anomalies rather than smoothing them.** A discontinuity you cannot explain
    goes in the report, not out of the plot.
 
 ## Common mistakes
@@ -67,10 +68,11 @@ is worse than no plot.
 | Unstated exclusions | Runs dropped for reasons nobody records |
 | Unequal comparison | The winning method simply had more compute |
 | Figure without its numbers | A value in the paper traces to nothing |
-| Editing source data to fix a plot | The defect is hidden and the data is now wrong (never edit the evidence) |
+| Band without method or n | The shading could be a standard deviation, a standard error or a min–max range |
+| Editing source data to fix a plot | The defect is hidden and the data is now wrong |
 
 ## Report
 
 The script path and how to run it, the figures and tables produced, the run counts in and
-excluded, which axes were aggregated and which distinguished, and any anomaly you could not
-explain.
+excluded, which axes were aggregated and which distinguished, the estimator, interval and n of
+each aggregate, and any anomaly you could not explain.

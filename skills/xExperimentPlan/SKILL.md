@@ -7,13 +7,15 @@ description: >-
   be settled first — use xDesignDebate if it is not.
 user-invocable: true
 argument-hint: <the agreed design or goal>
+effort: xhigh
 ---
 
 # Experiment plan
 
 Sequence work so the cheap result that would stop you arrives before the expensive one.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: thresholds from measured or published data and questions get answers not edits.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: thresholds from measured or
+published data and questions get answers not edits.
 
 ## Input
 
@@ -22,7 +24,7 @@ planning an unsettled design produces a roadmap to the wrong place.
 
 ## Procedure
 
-1. **Write the plan to a file** the user can edit, normally `.claude/PLAN.<TOPIC>.md`. The plan is
+1. **Write the plan to a file** the user can edit, normally `.claude/plans/PLAN.<TOPIC>.md`. The plan is
    the artifact; the conversation is not.
 
 2. **Number the milestones linearly,** M0 upward. Each milestone states what it produces, and
@@ -38,13 +40,17 @@ planning an unsettled design produces a roadmap to the wrong place.
 5. **Put the gates in explicitly.** State which milestone must pass before the expensive one may
    start, and who decides. Gates the user must approve are marked as such.
 
-6. **State what each milestone measures and how,** including the estimator and the spread. A
-   milestone that produces a number nobody agreed to interpret produces an argument.
+6. **State what each milestone measures and how:** the estimator, the interval method (for
+   example a 95% bootstrap interval over seeds), the seed count, and the smallest difference that
+   would change a decision. Choose the seed count from the spread in a pilot, so that this
+   difference is detectable. If the budget cannot pay for that many seeds, say so before the
+   milestone runs. A milestone that produces a number nobody agreed to interpret produces an
+   argument.
 
 7. **Record the decisions the plan rests on,** so they are not re-litigated later. Link them, do
    not restate them.
 
-8. **Do not start executing while writing the plan** (questions get answers not edits). The plan is reviewed first.
+8. **Do not start executing while writing the plan.** The plan is reviewed first.
 
 9. **Refresh the plan against the repository** before resuming it in a later session. Code moved;
    milestones may already be done, or no longer possible.
@@ -57,6 +63,7 @@ planning an unsettled design produces a roadmap to the wrong place.
 | Missing kill criteria | Every result is interpreted as partial progress and nothing is ever stopped |
 | Unstated gates | Someone launches the expensive stage because the cheap one "looked fine" |
 | Milestones without acceptance | "Improve sampling" — done when? |
+| Seed count from habit | Three seeds cannot separate the difference that matters, and noise is read as a trend |
 | Plan in the conversation | The next session cannot find it and re-derives it |
 | Stale plan resumed | Milestones reference files and interfaces that have changed |
 

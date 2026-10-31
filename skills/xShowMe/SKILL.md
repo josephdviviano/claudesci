@@ -1,127 +1,112 @@
 ---
-name: show-me
-description: Help the user understand the current topic visually with concise diagrams, code-shape sketches, and focused HTML artifacts.
+name: xShowMe
+description: >-
+  Explain the current topic visually with the smallest view that makes the point: pseudocode, a
+  call tree, a data-flow or sequence diagram, a diff of a flow, or one focused HTML page. Use when
+  the user asks to be shown something, asks for a diagram of how a part works, or does not follow
+  an explanation in prose.
+user-invocable: true
+argument-hint: "[topic; defaults to the current discussion]"
 ---
 
-Help the user understand the current topic of conversation visually. Skip the preamble and keep prose brief. Pick the smallest view that makes the key point clear.
+# Show me
 
-- Show logic or an algorithm as pseudocode:
+Make the current point visible. Keep prose short.
+
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: verification proves execution and
+questions get answers not edits.
+
+## Input
+
+The topic, normally the current discussion. Read the code, config or data the view shows before
+you draw it.
+
+## Procedure
+
+1. **State the one point the view must make.** One view, one point. Add a second view only when
+   the first cannot carry the point.
+
+2. **Choose the form from the point:**
+
+   | Point | Form |
+   |---|---|
+   | An algorithm or update rule | Pseudocode, with the equation beside it |
+   | Which function calls which, at run time | Call tree |
+   | Where data goes and how its shape changes | Data-flow diagram with shapes on the edges |
+   | Interaction between processes, jobs or agents | Mermaid sequence diagram |
+   | Which file owns what | Shallow file tree |
+   | What a change does | `diff` of the pseudocode, call tree, config or file tree |
+   | A layout, a dense comparison, or several linked views | One focused HTML page |
+
+3. **Draw from the code, not from the names.** Take call trees and flows from the call sites and
+   the config that runs. Mark anything inferred as inferred.
+
+4. **Keep only what the question needs:** the calls, files, fields, shapes and boundaries that
+   bear on the point.
+
+5. **Place each view beside the short text it supports.**
+
+6. **For an HTML page,** write one file in the scratchpad with real labels and data, and open it
+   with `open <path>`. For charts, use the `dataviz` skill.
+
+7. **Change nothing in the repository.**
+
+## Forms
+
+Pseudocode:
 
 ```text
-on(save)
-  if content is unchanged
-    return cached result
-  write new content
-  return fresh result
+for each step
+  batch ← sample(buffer)
+  loss ← mean(td_error(batch)²)
+  if step mod target_every = 0
+    target ← online
 ```
 
-- Show runtime control flow as a call tree:
+Call tree:
 
 ```text
-submitForm
-  createSession
-    persistPrompt
-    launchAgent
-  navigateToSession
+train
+  collect_rollouts
+    env.step
+  update
+    compute_loss
+    optimizer.step
+  evaluate
 ```
 
-- Show UI structure as a component tree, including state and module boundaries that matter:
-
-```tsx
-<SessionPage> (apps/example/src/routes/session.tsx)
-  useSessionEvents()
-  <SessionToolbar>
-    <RunSkillButton> (packages/ui)
-```
-
-- Show file responsibility or a broad refactor as a shallow file tree:
-
-```text
-src/
-├── commands/       # parses user actions
-├── sessions/       # owns session state
-└── transport/      # sends API requests
-```
-
-- Show component interaction, control flow, or data flow with Mermaid:
+Data flow with shapes:
 
 ```mermaid
-sequenceDiagram
-    participant User
-    participant UI
-    participant Daemon
-    User->>UI: choose command
-    UI->>Daemon: send expanded prompt
-    Daemon-->>UI: stream result
+flowchart LR
+  raw["raw.csv: N×12"] --> clean["clean: M×10"]
+  clean --> split{"split by subject"}
+  split --> train["train: 0.8M×10"]
+  split --> test["test: 0.2M×10"]
 ```
 
-- Use `diff` when the point is what changes and the surrounding shape already exists. Match the diff shape to the topic.
-
-For a component change:
+Diff of a flow:
 
 ```diff
- <SessionPage>
-   useSessionEvents()
-   <SessionToolbar>
-+    <RunSkillButton />
-   <SessionTimeline>
-+    <SkillResultCard />
+ train
+   collect_rollouts
+   update
++    clip_gradients
+     optimizer.step
+-  evaluate
++  evaluate_every(k)
 ```
 
-For a file-layout change:
+## Common mistakes
 
-```diff
- src/
- ├── commands/
-+│   └── show-me.ts       # expands the slash command
- ├── sessions/
--└── transport.ts
-+└── transport/
-+    ├── client.ts
-+    └── stream.ts
-```
+| Mistake | How it appears |
+|---|---|
+| Drawn from memory | The call tree shows what the names suggest; the code calls something else |
+| Several points in one view | The user cannot tell which part answers the question |
+| Everything included | The edge that matters is lost among thirty boxes |
+| HTML where text works | A page to open for what a five-line tree shows |
+| Inferred shown as fact | A guessed edge reads as a verified one |
 
-For a call-tree or call-stack change:
+## Report
 
-```diff
- submitForm
-   createSession
-     persistPrompt
-+    expandSkillMention
-     launchAgent
--  navigateToSession
-+  navigateToSession
-+    subscribeToEvents
-```
-
-For a state or control-flow change:
-
-```diff
- on(save)
--  write content
-+  if content is unchanged
-+    return cached result
-+  write new content
-+  invalidate cache
-```
-
-- Show the whole block when most of it is new, when omitted context would hide ownership or order, or when the user needs a copyable target shape:
-
-```ts
-function expandSkill(command: string): string {
-  const skillName = command.slice(1)
-  return `use the ${skillName} skill`
-}
-```
-
-- For a visual UI, layout, state comparison, or concept too dense for Mermaid, write one focused HTML file — a diagram, an infographic, or a short slide deck, whichever fits the point. Match the product's colors, type, spacing, and components; use real labels and data; support desktop and mobile. Then open it for the user:
-
-```
-Bash(open path/to/show-me-{description}.html)
-```
-
-### guidance
-
-Place each visual next to the short text it supports. Keep only the calls, files, props, states, and boundaries needed to answer the user's current question or the options to resolve the current discussion point.
-
-You may use one of these, you may use several, it is unlikely you will use all of them. Use your judgement and don't overwhelm the user.
+The views, each beside its text. For an HTML page, its path. Anything inferred, marked.

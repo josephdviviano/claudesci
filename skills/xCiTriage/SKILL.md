@@ -6,13 +6,15 @@ description: >-
   many runs or cluster jobs, use xAnalyzeLogs.
 user-invocable: true
 argument-hint: <CI run URL or job name>
+effort: xhigh
 ---
 
 # CI triage
 
 Find why this run failed, and fix that.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: never edit the evidence, thresholds from measured or published data and per-repo policy is authoritative.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: never edit the evidence,
+thresholds from measured or published data and per-repo policy is authoritative.
 
 ## Input
 
@@ -40,14 +42,14 @@ merge commit that exists nowhere locally.
 
 4. **Pin the divergence** once found, in both places, so local and CI agree from now on.
 
-5. **Never loosen a threshold, widen a tolerance, or add a retry to make a check pass** (never edit the evidence).
+5. **Never loosen a threshold, widen a tolerance, or add a retry to make a check pass.**
    That converts a visible failure into a silent one.
 
 6. **Diagnose flakiness rather than re-running it.** A test that fails intermittently has a real
    cause — ordering, shared state, timing, an unseeded random source. Use `xHypothesisDebug`.
    Re-running until green hides it and it returns during a submission.
 
-7. **Follow the project's own check policy** (per-repo policy is authoritative) when verifying the fix, and run the same
+7. **Follow the project's own check policy** when verifying the fix, and run the same
    checks CI runs.
 
 ## Common mistakes

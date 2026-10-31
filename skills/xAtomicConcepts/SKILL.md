@@ -7,7 +7,7 @@ description: >-
   without information loss, and reducing comments to what the code cannot carry.
 user-invocable: true
 argument-hint: <the body of artifacts to decompose>
-effort: high
+effort: xhigh
 ---
 
 # Atomic concepts
@@ -15,7 +15,8 @@ effort: high
 Find the small set of reusable units a large set of artifacts is built from, then use that basis
 to say what is redundant, what is missing, and what is genuinely new.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: do not rationalize your instrumentation and thresholds from measured or published data.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: do not rationalize your
+instrumentation, thresholds from measured or published data and CLAUDE.md comment style.
 
 ## Input
 
@@ -26,7 +27,7 @@ The artifacts and what the decomposition is for. The purpose decides what counts
 | Generated problems or tasks | The mechanism a solution must use | Diversity audit, targeted generation |
 | Functions or modules | The distinct operation performed | Refactor many implementations to one |
 | Paragraphs or sections | The distinct claim made | Compress without information loss |
-| Comments | The fact the code cannot state itself | Comment reduction (CLAUDE.md comment style) |
+| Comments | The fact the code cannot state itself | Comment reduction |
 | Configs or scripts | The distinct decision encoded | Deduplicate and harmonize |
 
 ## Procedure
@@ -54,7 +55,7 @@ The artifacts and what the decomposition is for. The purpose decides what counts
    are not different concepts. Two artifacts with the same atom set are duplicates however
    different they look.
 
-6. **Check any derived metric against outcomes before trusting it** (do not rationalize your instrumentation). A difficulty or
+6. **Check any derived metric against outcomes before trusting it.** A difficulty or
    novelty score computed from the basis must be shown to predict something real. Report it as
    unvalidated until it does.
 

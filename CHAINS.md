@@ -180,14 +180,14 @@ flowchart LR
 | xAgentErgonomics | xSpecDiff | alternative | `skills/xAgentErgonomics/SKILL.md:11` |
 | xAnalyzeLogs | xCiTriage | alternative | `skills/xAnalyzeLogs/SKILL.md:6` |
 | xAnalyzeLogs | xPlotResults | alternative | `skills/xAnalyzeLogs/SKILL.md:6` |
-| xAutonomousCampaign | xExperimentPlan | B before A | `skills/xAutonomousCampaign/SKILL.md:21` |
-| xAutonomousCampaign | xHandoff | A then B | `skills/xAutonomousCampaign/SKILL.md:49` |
+| xAutonomousCampaign | xExperimentPlan | B before A | `skills/xAutonomousCampaign/SKILL.md:22` |
+| xAutonomousCampaign | xHandoff | A then B | `skills/xAutonomousCampaign/SKILL.md:59` |
 | xCiTriage | xAnalyzeLogs | alternative | `skills/xCiTriage/SKILL.md:6` |
-| xCiTriage | xHypothesisDebug | A then B | `skills/xCiTriage/SKILL.md:47` |
+| xCiTriage | xHypothesisDebug | A then B | `skills/xCiTriage/SKILL.md:49` |
 | xCleanBranch | xShip | A then B | `skills/xCleanBranch/SKILL.md:7` |
-| xColleagueReport | xPlotResults | B before A | `skills/xColleagueReport/SKILL.md:33` |
-| xColleagueReport | xSanitize | A then B | `skills/xColleagueReport/SKILL.md:50` |
-| xConfigHygiene | xDeslop | A then B | `skills/xConfigHygiene/SKILL.md:36` |
+| xColleagueReport | xPlotResults | B before A | `skills/xColleagueReport/SKILL.md:35` |
+| xColleagueReport | xSanitize | A then B | `skills/xColleagueReport/SKILL.md:52` |
+| xConfigHygiene | xDeslop | A then B | `skills/xConfigHygiene/SKILL.md:39` |
 | xDeslop | xAtomicConcepts | alternative | `skills/xDeslop/SKILL.md:15` |
 | xDocSweep | xDeslop | alternative | `skills/xDocSweep/SKILL.md:17` |
 | xDocSweep | xHandoff | alternative | `skills/xDocSweep/SKILL.md:18` |
@@ -195,9 +195,9 @@ flowchart LR
 | xDocSweep | xWriteSte | alternative | `skills/xDocSweep/SKILL.md:17` |
 | xExperimentPlan | xDesignDebate | B before A | `skills/xExperimentPlan/SKILL.md:7` |
 | xFreshEyes | xSpecDiff | alternative | `skills/xFreshEyes/SKILL.md:7` |
-| xHypothesisDebug | xDebugHarness | A then B | `skills/xHypothesisDebug/SKILL.md:43` |
-| xHypothesisDebug | xMinimalRepro | A then B | `skills/xHypothesisDebug/SKILL.md:43` |
-| xImplementPaper | xSmokeThenScale | A then B | `skills/xImplementPaper/SKILL.md:45` |
+| xHypothesisDebug | xDebugHarness | A then B | `skills/xHypothesisDebug/SKILL.md:48` |
+| xHypothesisDebug | xMinimalRepro | A then B | `skills/xHypothesisDebug/SKILL.md:49` |
+| xImplementPaper | xSmokeThenScale | A then B | `skills/xImplementPaper/SKILL.md:46` |
 | xLatentStructure | xConfigHygiene | A then B | `skills/xLatentStructure/SKILL.md:107` |
 | xLatentStructure | xDesignDebate | A then B | `skills/xLatentStructure/SKILL.md:106` |
 | xLatentStructure | xHandoff | A then B | `skills/xLatentStructure/SKILL.md:54` |
@@ -211,6 +211,6 @@ flowchart LR
 | xSubsystemSweep | xLatentBugAudit | alternative | `skills/xSubsystemSweep/SKILL.md:19` |
 | xSubsystemSweep | xRegressionGate | B before A | `skills/xSubsystemSweep/SKILL.md:88` |
 | xSubsystemSweep | xShip | A then B | `skills/xSubsystemSweep/SKILL.md:88` |
-| xTriageReport | xHypothesisDebug | A then B | `skills/xTriageReport/SKILL.md:29` |
-| xWriteSte | xAtomicConcepts | A then B | `skills/xWriteSte/SKILL.md:32` |
-| xWriteSte | xSpecDiff | A then B | `skills/xWriteSte/SKILL.md:38` |
+| xTriageReport | xHypothesisDebug | A then B | `skills/xTriageReport/SKILL.md:30` |
+| xWriteSte | xAtomicConcepts | A then B | `skills/xWriteSte/SKILL.md:34` |
+| xWriteSte | xSpecDiff | A then B | `skills/xWriteSte/SKILL.md:40` |

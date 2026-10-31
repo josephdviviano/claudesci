@@ -6,14 +6,15 @@ description: >-
   reproduce a paper's results in their codebase.
 user-invocable: true
 argument-hint: <arXiv link or paper path>
-effort: high
+effort: xhigh
 ---
 
 # Implement paper
 
 Turn a paper into library code that reproduces the paper's own result.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: a changed flow replaces the old one, commit only when asked and questions get answers not edits.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: a changed flow replaces the old
+one, commit only when asked and questions get answers not edits.
 
 ## Input
 
@@ -29,7 +30,7 @@ them is rarely what is wanted.
 2. **Extract the method as a specification** before writing code: objective, estimator, algorithm
    steps, hyperparameters with their values, and the reported result you are targeting.
 
-3. **Agree the plan before implementing** (questions get answers not edits). Where the method belongs in the library,
+3. **Agree the plan before implementing.** Where the method belongs in the library,
    what it subclasses or reuses, and what existing code must change to accommodate it. Placement
    is a design decision the user will have opinions about.
 
@@ -50,7 +51,7 @@ them is rarely what is wanted.
 8. **Write the explanatory notebook** where the user wants one: the method stated with its
    mathematics, its relationship to the methods already in the library, and a runnable example.
 
-9. **Open the PR** when asked (commit only when asked), citing the paper in the code where a design decision
+9. **Open the PR** when asked, citing the paper in the code where a design decision
    comes from it.
 
 ## Common mistakes

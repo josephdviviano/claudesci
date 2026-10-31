@@ -6,13 +6,15 @@ description: >-
   when the user asks to condense, simplify or shorten text, or to fit a page limit.
 user-invocable: true
 argument-hint: <section to compress> [budget]
+effort: xhigh
 ---
 
 # Write STE
 
 Make the text shorter and clearer without dropping a fact.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: questions get answers not edits and stale docs get deleted.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: questions get answers not edits
+and stale docs get deleted.
 
 ## Input
 
@@ -38,7 +40,7 @@ into neighbouring sections is unreviewable.
    for text to drift from the implementation. Use `xSpecDiff` for a long or high-stakes section.
 
 6. **Keep to the budget,** and report what it cost. If the budget cannot be met without dropping
-   a fact, say which fact and let the user decide (questions get answers not edits).
+   a fact, say which fact and let the user decide.
 
 7. **Do not add.** No new framing, no smoothed-over gaps, no invented justification for a number.
 

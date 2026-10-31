@@ -12,7 +12,8 @@ argument-hint: <the observation list, or the item numbers to revisit>
 
 Track every reported observation independently until the user confirms it on a re-run.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: diagnostics must discriminate, commit only when asked and questions get answers not edits.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: diagnostics must discriminate,
+commit only when asked and questions get answers not edits.
 
 ## Input
 
@@ -50,7 +51,7 @@ mission, run id, coordinates, timestamps — are part of the item, not decoratio
 7. **Report the whole table every round,** not only what changed. The user is tracking items you
    have said nothing about, and a silent item reads as a dropped one.
 
-8. **Do not add items they did not raise** (questions get answers not edits). If you find something adjacent, list it
+8. **Do not add items they did not raise.** If you find something adjacent, list it
    separately as a new finding for them to accept or decline.
 
 ## Common mistakes

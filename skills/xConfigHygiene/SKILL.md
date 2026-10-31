@@ -6,13 +6,16 @@ description: >-
   launch scripts have diverged, or when an old experiment can no longer be reproduced.
 user-invocable: true
 argument-hint: <config, scripts or pipeline to audit>
+effort: xhigh
 ---
 
 # Config hygiene
 
 Every value that affects a result is set explicitly, in one place, and recorded.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: thresholds from measured or published data, no silent fallbacks and per-repo policy is authoritative.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: thresholds from measured or
+published data, no silent fallbacks, per-repo policy is authoritative and verification proves
+execution.
 
 ## Input
 
@@ -24,7 +27,7 @@ The configuration system, launch scripts or pipeline to audit.
    data paths and splits, reward weights, decay terms. For each, identify whether it comes from
    configuration, a script argument, an environment variable, or a hard-coded default.
 
-2. **Eliminate silent defaults on result-affecting values** (no silent fallbacks). A value that falls back
+2. **Eliminate silent defaults on result-affecting values.** A value that falls back
    without announcing itself produces results nobody can attribute. Prefer failing when it is
    absent over supplying a default.
 
@@ -46,7 +49,7 @@ The configuration system, launch scripts or pipeline to audit.
    provide the path by which an earlier run's settings can still be expressed, or state plainly
    that it cannot and what was lost.
 
-8. **Verify each value is actually read** (verification proves execution). Wiring a key into a file proves nothing until
+8. **Verify each value is actually read.** Wiring a key into a file proves nothing until
    something consumes it.
 
 ## Common mistakes

@@ -7,14 +7,16 @@ description: >-
   or "generate a hypothesis". Not for defects whose cause is already established.
 user-invocable: true
 argument-hint: <defect description, log path, or run command>
-effort: high
+effort: xhigh
 ---
 
 # Hypothesis debug
 
 Find a defect's cause by measurement that separates candidates. Fix only after the cause is proven.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: verification proves execution, do not rationalize your instrumentation, diagnostics must discriminate and thresholds from measured or published data.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: verification proves execution, do
+not rationalize your instrumentation, diagnostics must discriminate, thresholds from measured or
+published data and a changed flow replaces the old one.
 
 ## Input
 
@@ -39,8 +41,12 @@ identifier, or coordinates, keep them exact — they define the case you must re
 
 5. **Build the cheapest discriminating measurement.** Prefer reading state that already exists
    over adding instrumentation. Prefer per-item dumps over aggregates: an aggregate hides the
-   one item that disagrees. If the measurement needs an automated or headless repro, use
-   `xDebugHarness`. If it needs a reduced case, use `xMinimalRepro`.
+   one item that disagrees. If a known-good commit exists, bisecting the history is often the
+   cheapest discriminating measurement: `git bisect run` with a script that exits non-zero on the
+   symptom finds the first bad commit in about log2(n) runs. Bisect in a separate worktree
+   (`git worktree add`), never in a tree other sessions share. If the measurement needs an
+   automated or headless repro, use `xDebugHarness`. If it needs a reduced case, use
+   `xMinimalRepro`.
 
 6. **Run it and record the numbers.** Compare against the predictions from step 4.
 
@@ -49,10 +55,10 @@ identifier, or coordinates, keep them exact — they define the case you must re
    survives, the measurement was not discriminating — return to step 4.
 
 8. **Prove the surviving cause.** Show the mechanism in the code, and show that the path
-   executes (verification proves execution). A cause that is merely consistent with the symptom is not proven.
+   executes. A cause that is merely consistent with the symptom is not proven.
 
 9. **Fix the mechanism, not the symptom.** Report the fix before applying it if it changes a
-   logic flow (a changed flow replaces the old one) or crosses into design.
+   logic flow or crosses into design.
 
 10. **Verify with the measurement that discriminated,** and with the user's original
     reproduction. Both must change.
@@ -67,7 +73,7 @@ identifier, or coordinates, keep them exact — they define the case you must re
 | Threshold tuning | A constant is moved until the symptom stops. The cause is untouched and now hidden |
 | Believing a stale artifact | The binary was not relinked, or the log predates the change |
 | Fixing during diagnosis | Edits land while candidates are open, and the measurement no longer applies |
-| Single-sample conclusions | One run stands in for a distribution (thresholds from measured or published data) |
+| Single-sample conclusions | One run stands in for a distribution |
 
 ## Report
 

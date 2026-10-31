@@ -6,8 +6,8 @@ description: >-
   a reduced test disagrees with the real run. A reproduction that passes is not evidence until
   this check is done.
 user-invocable: true
-argument-hint: <failing case: run id, input, level, seed or command>
-effort: high
+argument-hint: "<failing case: run id, input, level, seed or command>"
+effort: xhigh
 ---
 
 # Minimal repro
@@ -15,7 +15,8 @@ effort: high
 Build a reduced case that fails for the same reason as the real one. A passing reduction proves
 nothing until you have confirmed it preserves the conditions at the moment of failure.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: verification proves execution, never edit the evidence and diagnostics must discriminate.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: verification proves execution,
+never edit the evidence and diagnostics must discriminate.
 
 ## Input
 
@@ -54,8 +55,15 @@ failure. Keep the user's identifiers verbatim.
 6. **Reduce further one condition at a time,** re-running after each removal. The case is minimal
    when removing any remaining condition makes the failure disappear.
 
-7. **When code and reference data disagree, doubt the code first.** Settle it with the repro and
-   never by editing the data (never edit the evidence). Bad data exists, but prove it — do not assume it because
+7. **Reduce the history as well as the input.** When the failure appeared between a known-good
+   commit and a bad one, run `git bisect run` with the reduced case as the test. The first bad
+   commit names the change the failure depends on. Bisect in a separate worktree
+   (`git worktree add`), never in a tree other sessions share. If the bisect lands on a commit
+   that cannot cause the symptom, the test is flaky or checks a different symptom: return to
+   step 4.
+
+8. **When code and reference data disagree, doubt the code first.** Settle it with the repro and
+   never by editing the data. Bad data exists, but prove it — do not assume it because
    it is the cheaper conclusion.
 
 ## Common mistakes
@@ -68,6 +76,7 @@ failure. Keep the user's identifiers verbatim.
 | "Verified in isolation" | True, and useless — the isolated path was never the failing path |
 | Passing repro read as proof of bad data | The reduction was wrong, and the real defect survives |
 | Assertions omitted | The repro drifts from the captured case and nobody notices |
+| Bisect in a shared tree | Checking out old commits rewrites files another session is editing |
 
 ## Report
 

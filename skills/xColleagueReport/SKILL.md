@@ -6,13 +6,15 @@ description: >-
   show in a meeting, or to convince a collaborator that a contribution is substantive.
 user-invocable: true
 argument-hint: <what the report must cover, and who reads it>
+effort: xhigh
 ---
 
 # Colleague report
 
 Write for a reader who will check your work, not take your word for it.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: do not rationalize your instrumentation and commit only when asked.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: do not rationalize your
+instrumentation and commit only when asked.
 
 ## Input
 
@@ -49,7 +51,7 @@ collaborator deciding whether to adopt it need different documents.
 8. **Check what leaves the repository.** Unpublished results, identifying information or
    restricted material need `xSanitize` before the report is shared.
 
-9. **Do not commit, push or open the PR unless asked** (commit only when asked).
+9. **Do not commit, push or open the PR unless asked.**
 
 ## Common mistakes
 

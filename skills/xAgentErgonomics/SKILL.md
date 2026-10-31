@@ -22,9 +22,9 @@ tasks. Redesign the documents and plans to remove what stopped them. Then measur
 `xDocSweep` makes a doc corpus true and short. This skill finds what the operator needs from
 the whole system, and redesigns the documents and plans to supply it.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: verification proves execution, diagnostics
-must discriminate, no silent fallbacks, questions get answers not edits, and the Bash style rule
-repeated in every subagent prompt.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: verification proves execution,
+diagnostics must discriminate, no silent fallbacks, questions get answers not edits and the Bash
+style rule repeated in every subagent prompt.
 
 ## Terms
 

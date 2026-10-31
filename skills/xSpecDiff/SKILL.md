@@ -15,7 +15,8 @@ effort: max
 Check whether the code does what one named artifact says it does. Report differences; change
 nothing, and give no opinion on whether the design is good — that is `xFreshEyes`.
 
-Follow `~/.claude/CONVENTIONS.md`, in particular: verification proves execution and questions get answers not edits.
+Follow `${CLAUDE_SKILL_DIR}/../../CONVENTIONS.md`, in particular: verification proves execution and
+questions get answers not edits.
 
 ## Input
 
@@ -41,7 +42,7 @@ no diff.
    | differs | Code does something else — record both values |
    | missing | Document describes behaviour the code does not have |
    | undocumented | Code has behaviour the document does not mention |
-   | unreachable | Code exists but never executes (verification proves execution) |
+   | unreachable | Code exists but never executes |
 
 4. **Confirm reachability for anything you mark as matching.** Present in the file is not the
    same as running. Check the call sites.
@@ -49,7 +50,7 @@ no diff.
 5. **Do not resolve discrepancies yourself.** Which side is wrong is the user's decision: the
    document may need correcting as often as the code does.
 
-6. **Change nothing** (questions get answers not edits).
+6. **Change nothing.**
 
 ## Common mistakes
 
